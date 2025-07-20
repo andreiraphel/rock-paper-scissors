@@ -18,6 +18,7 @@ const rockBtn = document.getElementById("rock");
 const paperBtn = document.getElementById("paper");
 const scissorsBtn = document.getElementById("scissors");
 
+
 function getComputerChoice(){
     let choice = Math.floor(Math.random() * 3);
 
@@ -34,9 +35,6 @@ function getHumanChoice() {
         scissorsBtn.addEventListener("click", () => resolve("scissors"), { once: true });
     });
 }
-
-
-
 
 
 function playRound(humanChoice, computerChoice){
@@ -62,8 +60,8 @@ async function playGame(){
     for(let i=1; i <=20; i++){
         let p_choice = await getHumanChoice();
         let c_choice = getComputerChoice();
-        p_pick.textContent = p_choice;
-        c_pick.textContent = c_choice;
+        p_pick.textContent = p_choice.toUpperCase();
+        c_pick.textContent = c_choice.toUpperCase();
 
 
         playRound(p_choice, c_choice);
