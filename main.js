@@ -1,3 +1,23 @@
+let humanScore = 0;
+let computerScore = 0;
+
+const p_score = document.querySelector(".player-score");
+p_score.textContent = humanScore;
+const c_score = document.querySelector(".computer-score");
+c_score.textContent = computerScore;
+
+const info = document.querySelector(".info");
+info.textContent = "WELCOME!"
+
+const p_pick = document.querySelector(".player-pick");
+p_pick.textContent = ("-----")
+const c_pick = document.querySelector(".computer-pick");
+c_pick.textContent = ("-----")
+
+const rockBtn = document.getElementById("rock");
+const paperBtn = document.getElementById("paper");
+const scissorsBtn = document.getElementById("scissors");
+
 function getComputerChoice(){
     let choice = Math.floor(Math.random() * 3);
 
@@ -7,16 +27,17 @@ function getComputerChoice(){
 }
 
 
-
-function getHumanChoice(){
-    let choice = prompt("1 - Rock\n2 - Paper\n3 - Scissors");
-    return (choice === "1") ? "rock"
-        : (choice === "2") ? "paper"
-        : "scissors";
+function getHumanChoice() {
+    return new Promise(resolve => {
+        rockBtn.addEventListener("click", () => resolve("rock"), { once: true });
+        paperBtn.addEventListener("click", () => resolve("paper"), { once: true });
+        scissorsBtn.addEventListener("click", () => resolve("scissors"), { once: true });
+    });
 }
 
-let humanScore = 0;
-let computerScore = 0;
+
+
+
 
 function playRound(humanChoice, computerChoice){
     let tie = (humanChoice == computerChoice);
@@ -25,26 +46,36 @@ function playRound(humanChoice, computerChoice){
     let hScR = humanChoice == "scissors" && computerChoice == "rock";
 
     if(tie){
-        console.log("Tie!")
+        info.textContent = ("Tie!")
     } else if(hRcP || hPcS || hScR){
         computerScore++;
-        console.log("You lose! You picked " + humanChoice + " and Computer picked " + computerChoice);
+        c_score.textContent = computerScore;
+        info.textContent = ("You lose! You picked " + humanChoice + " and Computer picked " + computerChoice);
     } else if(!hRcP || !hPcS || !hScR){
         humanScore++;
-        console.log("You Win! You picked " + humanChoice + " and Computer picked " + computerChoice);
+        p_score.textContent = humanScore;
+        info.textContent = ("You Win! You picked " + humanChoice + " and Computer picked " + computerChoice);
     }
 }
 
-function playGame(){
+async function playGame(){
     for(let i=1; i <=20; i++){
-        playRound(getHumanChoice(), getComputerChoice());
+        let p_choice = await getHumanChoice();
+        let c_choice = getComputerChoice();
+        p_pick.textContent = p_choice;
+        c_pick.textContent = c_choice;
+
+
+        playRound(p_choice, c_choice);
         if(humanScore == 5){
-            console.log("YOU WIN 5 ROUNDS!");
+            info.textContent = ("YOU WIN 5 ROUNDS!");
             break;
         } else if (computerScore == 5){
-            console.log("Computer WINS 5 ROUNDS!");
+            info.textContent = ("Computer WINS 5 ROUNDS!");
             break;
         }
     }
 }
+
+playGame();
 
