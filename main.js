@@ -15,8 +15,8 @@ function getHumanChoice(){
         : "scissors";
 }
 
-var humanScore = 0;
-var computerScore = 0;
+let humanScore = 0;
+let computerScore = 0;
 
 function playRound(humanChoice, computerChoice){
     let tie = (humanChoice == computerChoice);
@@ -48,4 +48,3 @@ function playGame(){
     }
 }
 
-playGame();
